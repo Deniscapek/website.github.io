@@ -1,31 +1,20 @@
-function downloadCv() {
-   alert('On progress...');
-}
+__path = process.cwd()
 
-$(function(){  // $(document).ready shorthand
-  $('.header').fadeIn('slow');
+var express = require('express');
+var router = express.Router();
+
+router.get('/', async(req, res) => {
+	res.sendFile(__path + '/views/index.html')
+})
+router.get('/css/style.css', async(req, res) => {
+	res.sendFile(__path + '/views/css/style.css')
+})
+
+//Kalo page yang di cari engga ada, nanti muncul ini:v
+router.use(function (req, res) {
+res.status(404)
+.sendFile(__path + '/views/404.html')
 });
 
-$(document).ready(function() {
-    
-    /* Every time the window is scrolled ... */
-    $(window).scroll( function(){
-    
-        /* Check the location of each desired element */
-        $('.fade-in').each( function(i){
-            
-            var bottom_of_object = $(this).position().top;
-            var bottom_of_window = $(window).scrollTop() + $(window).height();
-            
-            /* If the object is completely visible in the window, fade it it */
-            if( bottom_of_window > bottom_of_object ){
-                
-                $(this).animate({'opacity':'1'},1500);
-                    
-            }
-            
-        }); 
-    
-    });
-    
-});
+
+module.exports = router
